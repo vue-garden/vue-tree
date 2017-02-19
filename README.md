@@ -84,4 +84,4 @@ Coming...
 
 ## Screenshot
 
-<img src="http://og9g58alt.bkt.clouddn.com/tree.png" width="500">
+<img src="http://og9g58alt.bkt.clouddn.com/tree.png" width="300">
