@@ -82,6 +82,11 @@ export default {
 
 Coming...
 
+
+## Demo
+
+[Demo](http://vue-demo.hsiaosiyuan.com)
+
 ## Screenshot
 
 <img src="http://og9g58alt.bkt.clouddn.com/tree.png" width="300">
