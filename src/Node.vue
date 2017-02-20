@@ -42,7 +42,7 @@ export default {
 
   data() {
     return {
-      isBodyVisible: true,
+      isBodyVisible: this.data.children.length > 0,
       isChecked: !!this.data.isChecked,
       id: 'hsy-tree-node-' + (++id),
       loading: false
@@ -158,11 +158,16 @@ export default {
       el.style.height = '0px'
     },
     enter(el, done) {
+      if (el._height === 0) {
+        this.$nextTick(() => {
+          this.cbExpanded !== Node.EMPTY_FN && this.cbExpanded()
+        })
+      }
       this.trans(el).then(() => {
         done()
-        if (this.cbExpanded !== EMPTY_FN) {
-          this.cbExpanded(this)
-        }
+        this.$nextTick(() => {
+          this.cbExpanded !== Node.EMPTY_FN && this.cbExpanded()
+        })
       })
       setTimeout(() => {
         el.style.height = el._height + 'px'
@@ -177,11 +182,18 @@ export default {
       el.style.height = el._height + 'px'
     },
     leave(el, done) {
+      let style = window.getComputedStyle(el)
+      let height = style.getPropertyValue('height')
+      if (parseInt(height) === 0) {
+        this.$nextTick(() => {
+          this.cbAbbred !== Node.EMPTY_FN && this.cbAbbred()
+        })
+      }
       this.trans(el).then(() => {
         done()
-        if (this.cbAbbred !== EMPTY_FN) {
-          this.cbAbbred(this)
-        }
+        this.$nextTick(() => {
+          this.cbAbbred !== Node.EMPTY_FN && this.cbAbbred()
+        })
       })
       setTimeout(() => {
         el.style.height = '0px'
