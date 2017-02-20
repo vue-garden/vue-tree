@@ -85,7 +85,7 @@ Coming...
 
 ## Demo
 
-[Demo](http://vue-demo.hsiaosiyuan.com)
+[Demo](http://vue-demo.hsiaosiyuan.com/#/tree)
 
 ## Screenshot
 
