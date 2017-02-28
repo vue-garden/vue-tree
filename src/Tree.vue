@@ -1,6 +1,6 @@
 <template>
 <div class="hsy-tree" :id="id">
-  <node v-for="c in mutableData" :data="c" :loader="loader" :indent="indent" :cbExpanded="expanded" :cbAbbred="abbred" :cbChanged="changed"></node>
+  <node v-for="c in mutableData" :data="c" :loader="loader" :customLabel="customLabel" :topLevelIndent="topLevelIndent" :indent="indent" :cbExpanded="expanded" :cbAbbred="abbred" :cbChanged="changed"></node>
 </div>
 </template>
 
@@ -23,6 +23,10 @@ export default {
     data: {
       type: Array,
       default: () => []
+    },
+    topLevelIndent: {
+      type: Number,
+      default: 0
     },
     indent: {
       type: Number,
@@ -70,6 +74,10 @@ export default {
       default: Node.EMPTY_FN
     },
     cbChanged: {
+      type: Function,
+      default: Node.EMPTY_FN
+    },
+    customLabel: {
       type: Function,
       default: Node.EMPTY_FN
     }

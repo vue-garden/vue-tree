@@ -3,7 +3,7 @@
   <div class="filter">
     Filter: <input type="text" v-model="search" @keyup.enter="filter">
   </div>
-  <tree :data="data" :loader="loader" :cbChanged="changed"></tree>
+  <tree :data="data" :loader="loader" :topLevelIndent="10" :customLabel="customLabel" :cbChanged="changed"></tree>
   <div class="result">
     Selected: {{ checked }}
   </div>
@@ -103,6 +103,9 @@ export default {
       }
       let copy = JSON.parse(JSON.stringify(this.copy))
       this.data = this.walkFilter(copy, new RegExp(this.search))
+    },
+    customLabel() {
+      return 'customLabel'
     }
   }
 }
