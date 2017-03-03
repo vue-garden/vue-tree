@@ -3,7 +3,7 @@
   <div class="header" @click.self="autoExpand" :style="{'padding-left': (topLevelIndent + data.level * indent) + 'px'}">
     <label :class="{checked: isChecked}"><input type="checkbox" :value="data.idx" :checked="isChecked" v-on:change="checkboxChanged" @click="checkboxClicked"></label>
     <div @click="autoExpand">
-      <i v-show="isBodyVisible"></i>
+      <i v-show="expandable"></i>
       <span v-if="!useCustomHtmlLabel">{{ label }}</span>
       <span v-if="useCustomHtmlLabel">{{ customHtmlLabel(label) }}</span>
     </div>
@@ -44,10 +44,10 @@ export default {
 
   data() {
     return {
-      isBodyVisible: this.data.children.length > 0 || this.loader !== EMPTY_FN,
       isChecked: !!this.data.isChecked,
       id: 'hsy-tree-node-' + (++id),
-      loading: false
+      loading: false,
+      isBodyVisible: this.data.children.length > 0 || this.loader !== EMPTY_FN
     }
   },
   props: {
@@ -97,6 +97,12 @@ export default {
     }
   },
   computed: {
+    expandable: {
+      cache: false,
+      get() {
+        return this.data.children.length > 0 || this.loader !== EMPTY_FN
+      }
+    },
     cls() {
       let cls = {
         expanded: this.isBodyVisible,
