@@ -3,13 +3,15 @@
   <div class="header" @click.self="autoExpand" :style="{'padding-left': (topLevelIndent + data.level * indent) + 'px'}">
     <label :class="{checked: isChecked}"><input type="checkbox" :value="data.idx" :checked="isChecked" v-on:change="checkboxChanged" @click="checkboxClicked"></label>
     <div @click="autoExpand">
-      <i></i>
-      <span>{{ label }}</span>
+      <i v-show="isBodyVisible"></i>
+      <span v-if="!useCustomHtmlLabel">{{ label }}</span>
+      <span v-if="useCustomHtmlLabel">{{ customHtmlLabel(label) }}</span>
     </div>
   </div>
   <transition v-on:before-enter="beforeEnter" v-on:enter="enter" v-on:after-enter="afterEnter" v-on:before-leave="beforeLeave" v-on:leave="leave">
     <div class="body" v-show="isBodyVisible">
-      <hsy-tree-node v-for="c in data.children" :loader="loader" :customLabel="customLabel" :topLevelIndent="topLevelIndent" :data="c" :pId="id" :indent="indent" :cbExpanded="cbExpanded" :cbAbbred="cbAbbred" :cbCheckboxClicked="cbCheckboxClicked" :cbChanged="cbChanged"></hsy-tree-node>
+      <hsy-tree-node v-for="c in data.children" :loader="loader" :customLabel="customLabel" :customHtmlLabel="customHtmlLabel" :topLevelIndent="topLevelIndent" :data="c" :pId="id" :indent="indent" :cbExpanded="cbExpanded" :cbAbbred="cbAbbred" :cbCheckboxClicked="cbCheckboxClicked"
+        :cbChanged="cbChanged"></hsy-tree-node>
     </div>
   </transition>
 </div>
@@ -42,7 +44,7 @@ export default {
 
   data() {
     return {
-      isBodyVisible: this.data.children.length > 0,
+      isBodyVisible: this.data.children.length > 0 || this.loader !== EMPTY_FN,
       isChecked: !!this.data.isChecked,
       id: 'hsy-tree-node-' + (++id),
       loading: false
@@ -88,6 +90,10 @@ export default {
     customLabel: {
       type: Function,
       default: EMPTY_FN
+    },
+    customHtmlLabel: {
+      type: Function,
+      default: EMPTY_FN
     }
   },
   computed: {
@@ -104,6 +110,9 @@ export default {
         return this.customLabel(this.data)
       }
       return this.data.label
+    },
+    useCustomHtmlLabel() {
+      return this.customHtmlLabel !== EMPTY_FN
     }
   },
   methods: {
