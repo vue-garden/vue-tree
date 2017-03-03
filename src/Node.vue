@@ -5,7 +5,7 @@
     <div @click="autoExpand">
       <i v-show="expandable"></i>
       <span v-if="!useCustomHtmlLabel">{{ label }}</span>
-      <span v-if="useCustomHtmlLabel" v-html="{{ customHtmlLabel(label) }}"></span>
+      <span v-if="useCustomHtmlLabel" :v-html="customHtmlLabel(label)"></span>
     </div>
   </div>
   <transition v-on:before-enter="beforeEnter" v-on:enter="enter" v-on:after-enter="afterEnter" v-on:before-leave="beforeLeave" v-on:leave="leave">
